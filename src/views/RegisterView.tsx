@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import { ErrorFormMessage } from "../components/ErrorFormMessage";
 
 export const RegisterView = () => {
+
+  const initialValues = {
+    name: "",
+    email: "",
+    handle: "",
+    password: "",
+    passwordConfirmation: "",
+  }
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: initialValues });
 
   const handleRegister = () => {
     console.log("desde handleRegister");
@@ -79,13 +88,13 @@ export const RegisterView = () => {
 
         <div className="grid grid-cols-1 space-y-3">
           <label
-            htmlFor="password_confirmation"
+            htmlFor="passwordConfirmation"
             className="text-2xl text-slate-500"
           >
             Repetir Password
           </label>
           <input
-            id="password_confirmation"
+            id="passwordConfirmation"
             type="password"
             placeholder="Repetir Password"
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
