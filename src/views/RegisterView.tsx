@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 import { ErrorFormMessage } from "../components/ErrorFormMessage";
 
 export const RegisterView = () => {
-
   const initialValues = {
     name: "",
     email: "",
     handle: "",
     password: "",
     passwordConfirmation: "",
-  }
+  };
 
   const {
     register,
@@ -18,6 +17,8 @@ export const RegisterView = () => {
     watch,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
+
+  const password = watch("password");
 
   const handleRegister = () => {
     console.log("desde handleRegister");
@@ -42,7 +43,9 @@ export const RegisterView = () => {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("name", { required: "El nombre es obligatorio" })}
           />
-          { errors.name && <ErrorFormMessage>{errors.name?.message}</ErrorFormMessage>  }
+          {errors.name && (
+            <ErrorFormMessage>{errors.name?.message}</ErrorFormMessage>
+          )}
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="email" className="text-2xl text-slate-500">
@@ -53,9 +56,17 @@ export const RegisterView = () => {
             type="email"
             placeholder="Email de Registro"
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-            {...register("email", { required: "El email es obligatorio" })}
+            {...register("email", {
+              required: "El email es obligatorio",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "E-mail no válido",
+              },
+            })}
           />
-          { errors.email && <ErrorFormMessage>{errors.email?.message}</ErrorFormMessage>  }
+          {errors.email && (
+            <ErrorFormMessage>{errors.email?.message}</ErrorFormMessage>
+          )}
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="handle" className="text-2xl text-slate-500">
@@ -68,7 +79,9 @@ export const RegisterView = () => {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("handle", { required: "El handle es obligatorio" })}
           />
-          { errors.handle && <ErrorFormMessage>{errors.handle?.message}</ErrorFormMessage>  }
+          {errors.handle && (
+            <ErrorFormMessage>{errors.handle?.message}</ErrorFormMessage>
+          )}
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="password" className="text-2xl text-slate-500">
@@ -81,9 +94,15 @@ export const RegisterView = () => {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("password", {
               required: "El password es obligatorio",
+              minLength: {
+                value: 8,
+                message: "El password debe tener al menos 8 caracteres",
+              },
             })}
           />
-          { errors.password && <ErrorFormMessage>{errors.password?.message}</ErrorFormMessage>  }
+          {errors.password && (
+            <ErrorFormMessage>{errors.password?.message}</ErrorFormMessage>
+          )}
         </div>
 
         <div className="grid grid-cols-1 space-y-3">
@@ -100,10 +119,14 @@ export const RegisterView = () => {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("passwordConfirmation", {
               required: "Es necesario confirmar tu password",
+              validate: (value) => value === password || "Los Passwords no coinciden",
             })}
           />
-          { errors.passwordConfirmation && <ErrorFormMessage>{errors.passwordConfirmation?.message}</ErrorFormMessage>  }
-
+          {errors.passwordConfirmation && (
+            <ErrorFormMessage>
+              {errors.passwordConfirmation?.message}
+            </ErrorFormMessage>
+          )}
         </div>
 
         <input
