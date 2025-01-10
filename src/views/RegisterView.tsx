@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { ErrorFormMessage } from "../components/ErrorFormMessage";
+import { RegisterForm } from "../types";
 
 export const RegisterView = () => {
-  const initialValues = {
+  const initialValues: RegisterForm = {
     name: "",
     email: "",
     handle: "",
@@ -20,8 +21,8 @@ export const RegisterView = () => {
 
   const password = watch("password");
 
-  const handleRegister = () => {
-    console.log("desde handleRegister");
+  const handleRegister = (formData: RegisterForm) => {
+    console.log(formData);
   };
 
   return (
@@ -119,7 +120,8 @@ export const RegisterView = () => {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("passwordConfirmation", {
               required: "Es necesario confirmar tu password",
-              validate: (value) => value === password || "Los Passwords no coinciden",
+              validate: (value) =>
+                value === password || "Los Passwords no coinciden",
             })}
           />
           {errors.passwordConfirmation && (
