@@ -22,9 +22,11 @@ export const RegisterView = () => {
 
   const password = watch("password");
 
+
+
   const handleRegister = async (formData: RegisterForm) => {
     try {
-      const {data} = await axios.post('http://localhost:3000/api/auth/register', formData);
+      const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, formData);
       console.log(data);
     } catch (error) {
       if(isAxiosError(error)) {
