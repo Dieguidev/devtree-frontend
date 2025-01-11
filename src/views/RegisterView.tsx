@@ -40,9 +40,9 @@ export const RegisterView = () => {
         // console.log(error.response?.data.error);
         //para java
         // console.log(error.response?.data);
-        if (error.response?.data.error === "Email already exists") {
+        if (error.response?.data.error === "Email already exists" || error.response?.data === "Email already exists") {
           toast.error("El email ya está en uso");
-        } else if (error.response?.data.error === "Handle already exists") {
+        } else if (error.response?.data.error === "Handle already exists" || error.response?.data === "Handle already exists") {
           toast.error("El handle ya está en uso");
         } else {
           toast.error("Error al crear la cuenta");
