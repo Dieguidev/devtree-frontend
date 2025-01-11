@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ErrorFormMessage } from "../components/ErrorFormMessage";
 import { RegisterForm } from "../types";
 import axios, { isAxiosError } from "axios";
+import { toast } from "sonner";
 
 export const RegisterView = () => {
   const initialValues: RegisterForm = {
@@ -29,7 +30,7 @@ export const RegisterView = () => {
         `${import.meta.env.VITE_API_URL}/api/auth/register`,
         formData
       );
-      console.log(data);
+      toast.success("Cuenta creada con éxito");
 
       reset();
     } catch (error) {
@@ -37,7 +38,14 @@ export const RegisterView = () => {
         //para node
         // console.log(error.response?.data.error);
         //para java
-        console.log(error.response?.data);
+        // console.log(error.response?.data);
+        if (error.response?.data.error === "Email already exists") {
+          toast.error("El email ya está en uso");
+        } else if (error.response?.data.error === "Handle already exists") {
+          toast.error("El handle ya está en uso");
+        } else {
+          toast.error("Error al crear la cuenta");
+        }
       }
     }
   };
