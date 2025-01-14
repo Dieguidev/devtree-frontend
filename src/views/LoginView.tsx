@@ -21,8 +21,10 @@ export const LoginView = () => {
 
   const handleLogin = async (formData: LoginForm) => {
     try {
-      await api.post(`/api/auth/login`, formData);
-      toast.success("Autenticado");
+      const {data}=await api.post(`/api/auth/login`, formData);
+      console.log(data.token);
+      localStorage.setItem("token", data.token);
+
 
       reset();
     } catch (error) {
