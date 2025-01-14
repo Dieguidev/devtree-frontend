@@ -27,7 +27,7 @@ export const RegisterView = () => {
 
   const handleRegister = async (formData: RegisterForm) => {
     try {
-      const { data } = await api.post(
+      await api.post(
         `/api/auth/register`,
         formData
       );
