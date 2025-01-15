@@ -3,11 +3,7 @@ import { api } from '../config/axios';
 
 export async function getUser() {
   try {
-    const { data } = await api.get('/api/user', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+    const { data } = await api.get('/api/user', );
     return data;
   } catch (error) {
     if (isAxiosError(error)) {
