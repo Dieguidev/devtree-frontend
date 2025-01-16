@@ -21,10 +21,8 @@ export const LoginView = () => {
 
   const handleLogin = async (formData: LoginForm) => {
     try {
-      const {data}=await api.post(`/api/auth/login`, formData);
-      console.log(data.token);
+      const { data } = await api.post(`/api/auth/login`, formData);
       localStorage.setItem("token", data.token);
-
 
       reset();
     } catch (error) {
