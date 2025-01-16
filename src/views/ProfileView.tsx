@@ -31,6 +31,7 @@ export const ProfileView = () => {
     },
     onSuccess: ()=>{
       toast.success('Perfil actualizado');
+      queryClient.invalidateQueries({queryKey: ['user']});
     }
   })
 
