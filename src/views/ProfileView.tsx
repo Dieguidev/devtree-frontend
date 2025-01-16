@@ -3,6 +3,7 @@ import { ErrorFormMessage } from "../components/ErrorFormMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ProfileForm, User } from "../types";
 import { updateProfile } from "../api/DevTreeAPI";
+import { toast } from "sonner";
 
 
 
@@ -23,11 +24,13 @@ export const ProfileView = () => {
 
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
-    onError: ()=>{
-      console.log('Error al actualizar el perfil');
+    onError: (error)=>{
+      if (error.message === 'Handle already exists') {
+        toast.error('El handle ya existe');
+      }
     },
     onSuccess: ()=>{
-      console.log('Perfil actualizado');
+      toast.success('Perfil actualizado');
     }
   })
 

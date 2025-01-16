@@ -19,6 +19,8 @@ export async function updateProfile(formData: ProfileForm) {
     return data;
   } catch (error) {
     if (isAxiosError(error)) {
+      console.log(error.response?.data.error);
+
       throw new Error(error.response?.data.error);
     }
   }
