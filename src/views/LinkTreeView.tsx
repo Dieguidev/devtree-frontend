@@ -71,7 +71,25 @@ export const LinkTreeView = () => {
 
       updatedItems = [...links, newItems];
     } else {
-      updatedItems = links.filter(link => link.name !== socialNetwork);
+      const indexToUpdate = links.findIndex(link => link.name === socialNetwork);
+      updatedItems = links.map(link =>{
+        if(link.name === socialNetwork){
+          return {
+            ...link,
+            order: 0,
+            enable: false,
+          }
+        }else if(link.order > indexToUpdate){
+          return {
+            ...link,
+            order: link.order - 1
+          }
+        } else{
+          return link;
+        }
+      })
+      console.log(indexToUpdate);
+
     }
 
     console.log(updatedItems);
