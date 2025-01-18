@@ -63,8 +63,6 @@ export const LinkTreeView = () => {
 
     const selectedSocialNetwork = updatedLinks.find(link =>link.name === socialNetwork);
     if(selectedSocialNetwork?.enable) {
-      console.log('habilitando', selectedSocialNetwork);
-      console.log(links.length);
       const newItems = {
         ...selectedSocialNetwork,
         order: links.length + 1
@@ -73,7 +71,7 @@ export const LinkTreeView = () => {
 
       updatedItems = [...links, newItems];
     } else {
-      console.log('deshabilitando');
+      updatedItems = links.filter(link => link.name !== socialNetwork);
     }
 
     console.log(updatedItems);
