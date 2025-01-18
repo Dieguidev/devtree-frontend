@@ -24,16 +24,24 @@ export const ProfileView = () => {
 
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
-    onError: (error)=>{
+    onError: (error) => {
       if (error.message === 'Handle already exists') {
         toast.error('El handle ya existe');
       }
     },
-    onSuccess: ()=>{
+    onSuccess: () => {
       toast.success('Perfil actualizado');
-      queryClient.invalidateQueries({queryKey: ['user']});
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     }
   })
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      console.log(e.target.files[0]);
+
+    }
+
+  }
 
   const handleUserProfileForm = (formData: ProfileForm) => {
     console.log(formData);
@@ -83,7 +91,7 @@ export const ProfileView = () => {
           name="handle"
           className="border-none bg-slate-100 rounded-lg p-2"
           accept="image/*"
-          onChange={() => { }}
+          onChange={handleChangeImage}
         />
       </div>
 
