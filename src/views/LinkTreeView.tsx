@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { social } from "../data/social"
 import { DevTreeInput } from "../components/DevTreeInput";
 import { isValidUrl } from "../utils";
@@ -13,7 +13,7 @@ export const LinkTreeView = () => {
 
   const queryClient = useQueryClient();
   const user: User = queryClient.getQueryData(['user'])!;
-  console.log(user);
+  console.log(user.links);
 
 
   const { mutate } = useMutation({
@@ -23,9 +23,22 @@ export const LinkTreeView = () => {
     },
     onSuccess: () => {
       toast.success('Actualizado correctamente');
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      // queryClient.invalidateQueries({ queryKey: ['user'] });
     }
   })
+
+  useEffect(() => {
+    const links = devTreeLinks.map(link => {
+      const social = user.links.find(social => social.name === link.name);
+
+      if (social) {
+        return { ...social, url: social.url, enable: social.enable }
+      }
+      return link;
+    })
+    setDevTreeLinks(links);
+  }, [])
+
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedLinks = devTreeLinks.map(link => link.name === e.target.name ? { ...link, url: e.target.value } : link)
