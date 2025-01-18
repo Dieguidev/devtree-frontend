@@ -42,8 +42,14 @@ export const LinkTreeView = () => {
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedLinks = devTreeLinks.map(link => link.name === e.target.name ? { ...link, url: e.target.value } : link)
-    console.log(updatedLinks);
     setDevTreeLinks(updatedLinks);
+
+    queryClient.setQueryData(['user'], (prevData: User) => {
+      return {
+        ...prevData,
+        links: updatedLinks || [{}]
+      }
+    })
   }
 
   const handleEnableLink = (socialNetwork: string) => {
