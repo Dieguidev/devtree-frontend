@@ -13,7 +13,7 @@ export const LinkTreeView = () => {
 
   const queryClient = useQueryClient();
   const user: User = queryClient.getQueryData(['user'])!;
-  console.log(user.links);
+
 
 
   const { mutate } = useMutation({

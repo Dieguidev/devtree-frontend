@@ -43,7 +43,7 @@ export const ProfileView = () => {
 
     },
     onSuccess: (data) => {
-      console.log(data);
+
       queryClient.setQueryData(['user'], (prevData: User) => {
         return {
           ...prevData,
