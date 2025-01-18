@@ -12,12 +12,19 @@ export const LinkTreeView = () => {
     setDevTreeLinks(updatedLinks);
   }
 
+  const handleEnableLink =(socialNetwork: string)=>{
+    const updatedLinks = devTreeLinks.map(link => link.name === socialNetwork ? { ...link, enabled: !link.enabled } : link)
+    console.log(updatedLinks);
+    setDevTreeLinks(updatedLinks);
+
+  }
+
   return (
     <>
       <div className="space-y-5">
         {
           devTreeLinks.map(item => (
-            <DevTreeInput key={item.name} item={item} handleUrlChange={handleUrlChange} />
+            <DevTreeInput key={item.name} item={item} handleUrlChange={handleUrlChange} handleEnableLink={handleEnableLink}/>
           ))
         }
       </div>
