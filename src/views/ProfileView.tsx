@@ -43,7 +43,7 @@ export const ProfileView = () => {
 
     },
     onSuccess: (data) => {
-      console.log(data);
+
       queryClient.setQueryData(['user'], (prevData: User) => {
         return {
           ...prevData,
@@ -65,9 +65,11 @@ export const ProfileView = () => {
   }
 
   const handleUserProfileForm = (formData: ProfileForm) => {
-    console.log(formData);
+    const user: User = queryClient.getQueryData<User>(['user'])!;
+    user.description = formData.description;
+    user.handle = formData.handle;
 
-    updateProfileMutation.mutate(formData);
+    updateProfileMutation.mutate(user);
   }
 
   return (
