@@ -7,10 +7,10 @@ import { toast } from "sonner";
 
 
 
+
 export const ProfileView = () => {
   const queryClient = useQueryClient();
   const data: User = queryClient.getQueryData(["user"])!
-console.log(data);
 
   const {
     register,
@@ -38,20 +38,25 @@ console.log(data);
 
   const uploadImageMutation = useMutation({
     mutationFn: uploadImage,
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
+      toast.error('Error al subir la imagen');
 
     },
     onSuccess: (data) => {
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.setQueryData(['user'], (prevData: User) => {
+        return {
+          ...prevData,
+          image: data
+        }
+
+      })
 
     }
   })
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      console.log('aqui');
 
       uploadImageMutation.mutate(e.target.files[0]);
 

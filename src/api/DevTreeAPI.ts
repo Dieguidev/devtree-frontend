@@ -27,12 +27,11 @@ export async function updateProfile(formData: ProfileForm) {
 }
 
 export async function uploadImage(file: File) {
-  let formData = new FormData();
+  const formData = new FormData();
   formData.append('file', file);
   try {
-    const { data} = await api.post('/api/user/upload-image', formData)
+    const { data } = await api.post('/api/user/upload-image', formData);
     return data;
-
   } catch (error) {
     if (isAxiosError(error)) {
       console.log(error.response?.data.error);
