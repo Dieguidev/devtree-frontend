@@ -1,12 +1,12 @@
 import { DevTreeLink } from '../types';
 
 export const social: DevTreeLink[] = [
-  { name: 'facebook', url: '', enabled: false },
-  { name: 'github', url: '', enabled: false },
-  { name: 'instagram', url: '', enabled: false },
-  { name: 'x', url: '', enabled: false },
-  { name: 'youtube', url: '', enabled: false },
-  { name: 'tiktok', url: '', enabled: false },
-  { name: 'twitch', url: '', enabled: false },
-  { name: 'linkedin', url: '', enabled: false },
+  { name: 'facebook', url: '', enable: false },
+  { name: 'github', url: '', enable: false },
+  { name: 'instagram', url: '', enable: false },
+  { name: 'x', url: '', enable: false },
+  { name: 'youtube', url: '', enable: false },
+  { name: 'tiktok', url: '', enable: false },
+  { name: 'twitch', url: '', enable: false },
+  { name: 'linkedin', url: '', enable: false },
 ];

@@ -13,6 +13,8 @@ export const LinkTreeView = () => {
 
   const queryClient = useQueryClient();
   const user: User = queryClient.getQueryData(['user'])!;
+  console.log(user);
+
 
   const { mutate } = useMutation({
     mutationFn: updateProfile,
@@ -35,7 +37,7 @@ export const LinkTreeView = () => {
     const updatedLinks = devTreeLinks.map(link => {
       if (link.name === socialNetwork) {
         if (isValidUrl(link.url)) {
-          return { ...link, enabled: !link.enabled }
+          return { ...link, enable: !link.enable }
         } else {
           toast.error('URL no válida');
         }
@@ -46,7 +48,7 @@ export const LinkTreeView = () => {
     queryClient.setQueryData(['user'], (prevData: User) => {
       return {
         ...prevData,
-        links: JSON.stringify(updatedLinks)
+        links: updatedLinks || [{}]
       }
     })
   }
