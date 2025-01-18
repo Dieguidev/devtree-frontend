@@ -5,7 +5,7 @@ import { isValidUrl } from "../utils";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProfile } from "../api/DevTreeAPI";
-import { User } from "../types";
+import { SocialNetwork, User } from "../types";
 
 
 export const LinkTreeView = () => {
@@ -13,7 +13,6 @@ export const LinkTreeView = () => {
 
   const queryClient = useQueryClient();
   const user: User = queryClient.getQueryData(['user'])!;
-
 
 
   const { mutate } = useMutation({
@@ -28,11 +27,11 @@ export const LinkTreeView = () => {
   })
 
   useEffect(() => {
-    const links = devTreeLinks.map(link => {
+    const links = devTreeLinks.map((link: SocialNetwork) => {
       const social = user.links.find(social => social.name === link.name);
 
       if (social) {
-        return { ...social, url: social.url, enable: social.enable }
+        return { ...social, url: social.url, enable: social.enable,  }
       }
       return link;
     })
@@ -43,14 +42,9 @@ export const LinkTreeView = () => {
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedLinks = devTreeLinks.map(link => link.name === e.target.name ? { ...link, url: e.target.value } : link)
     setDevTreeLinks(updatedLinks);
-
-    queryClient.setQueryData(['user'], (prevData: User) => {
-      return {
-        ...prevData,
-        links: updatedLinks || [{}]
-      }
-    })
   }
+
+  const links: SocialNetwork[] = user.links;
 
   const handleEnableLink = (socialNetwork: string) => {
     const updatedLinks = devTreeLinks.map(link => {
@@ -64,10 +58,32 @@ export const LinkTreeView = () => {
       return link;
     })
     setDevTreeLinks(updatedLinks);
+
+    let updatedItems: SocialNetwork[] = [];
+
+    const selectedSocialNetwork = updatedLinks.find(link =>link.name === socialNetwork);
+    if(selectedSocialNetwork?.enable) {
+      console.log('habilitando', selectedSocialNetwork);
+      console.log(links.length);
+      const newItems = {
+        ...selectedSocialNetwork,
+        order: links.length + 1
+      }
+      console.log(newItems);
+
+      updatedItems = [...links, newItems];
+    } else {
+      console.log('deshabilitando');
+    }
+
+    console.log(updatedItems);
+
+
+    //almacena en db
     queryClient.setQueryData(['user'], (prevData: User) => {
       return {
         ...prevData,
-        links: updatedLinks || [{}]
+        links: updatedItems
       }
     })
   }

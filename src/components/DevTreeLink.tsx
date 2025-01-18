@@ -1,4 +1,4 @@
-import { SocialNetwork } from '../types';
+import {  SocialNetwork } from '../types';
 
 type DevTreeLinkProps = {
   link: SocialNetwork
