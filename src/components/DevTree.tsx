@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom"
 import NavigationTabs from "./NavigationTabs"
 import { Toaster } from "sonner"
 import { User } from "../types"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DevTreeLink } from "./DevTreeLink"
 
 type DevTreeProps = {
@@ -13,7 +13,12 @@ export const DevTree = ({ data }: DevTreeProps) => {
 
   const [enableLinks, setEnableLinks] = useState(data.links.filter(item => item.enable))
 
-  console.log(enableLinks);
+
+
+  useEffect(() => {
+    setEnableLinks(data.links.filter(item => item.enable))
+  }, [data])
+
 
 
 
@@ -58,8 +63,6 @@ export const DevTree = ({ data }: DevTreeProps) => {
                 data.image && <img src={data.image} alt="Imagen de Perfil" className="mx-auto max-w-[250px]" />
               }
               <p className="text-center text-lg font-black text-white">{data.description}</p>
-
-
 
               <div className="mt-20 flex flex-col gap-5">
                 {
