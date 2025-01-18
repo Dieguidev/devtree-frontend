@@ -10,6 +10,7 @@ import { toast } from "sonner";
 export const ProfileView = () => {
   const queryClient = useQueryClient();
   const data: User = queryClient.getQueryData(["user"])!
+console.log(data);
 
   const {
     register,
@@ -43,6 +44,7 @@ export const ProfileView = () => {
     },
     onSuccess: (data) => {
       console.log(data);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
 
     }
   })
