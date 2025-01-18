@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom"
 import NavigationTabs from "./NavigationTabs"
 import { Toaster } from "sonner"
 import { User } from "../types"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DevTreeLink } from "./DevTreeLink"
 
 type DevTreeProps = {
@@ -13,7 +13,10 @@ export const DevTree = ({ data }: DevTreeProps) => {
 
   const [enableLinks, setEnableLinks] = useState(data.links.filter(item => item.enable))
 
-  console.log(enableLinks);
+  useEffect(() => {
+    setEnableLinks(data.links.filter(item => item.enable))
+  }, [data])
+
 
 
 
