@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { ErrorFormMessage } from "../components/ErrorFormMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ProfileForm, User } from "../types";
-import { updateProfile } from "../api/DevTreeAPI";
+import { updateProfile, uploadImage } from "../api/DevTreeAPI";
 import { toast } from "sonner";
+
 
 
 
@@ -24,16 +25,44 @@ export const ProfileView = () => {
 
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
-    onError: (error)=>{
+    onError: (error) => {
       if (error.message === 'Handle already exists') {
         toast.error('El handle ya existe');
       }
     },
-    onSuccess: ()=>{
+    onSuccess: () => {
       toast.success('Perfil actualizado');
-      queryClient.invalidateQueries({queryKey: ['user']});
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     }
   })
+
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImage,
+    onError: () => {
+      toast.error('Error al subir la imagen');
+
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.setQueryData(['user'], (prevData: User) => {
+        return {
+          ...prevData,
+          image: data
+        }
+
+      })
+
+    }
+  })
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+
+      uploadImageMutation.mutate(e.target.files[0]);
+
+    }
+
+  }
 
   const handleUserProfileForm = (formData: ProfileForm) => {
     console.log(formData);
@@ -83,7 +112,7 @@ export const ProfileView = () => {
           name="handle"
           className="border-none bg-slate-100 rounded-lg p-2"
           accept="image/*"
-          onChange={() => { }}
+          onChange={handleChangeImage}
         />
       </div>
 
