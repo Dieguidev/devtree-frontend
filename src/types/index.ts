@@ -5,7 +5,7 @@ export type User = {
   id: string;
   description: string;
   image: string;
-  links: Array<{ name: string, url: string, enable: boolean }> | []
+  links: Array<{ name: string, url: string, enable: boolean, order: number }> | []
 };
 
 export type RegisterForm = Pick<User, 'name' | 'email' | 'handle'> & {
@@ -20,9 +20,11 @@ export type LoginForm = Pick<User, 'email'> &{
 export type ProfileForm = Pick<User, 'handle' | 'description'>;
 
 export type SocialNetwork = {
+  order: number;
   name: string;
   url: string;
   enable: boolean;
 };
 
 export type DevTreeLink = Pick<SocialNetwork, 'name' | 'url' | 'enable'>;
+export type DevTreeLinkk = Pick<SocialNetwork, 'name' | 'url' | 'enable'>;
