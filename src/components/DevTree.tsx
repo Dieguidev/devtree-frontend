@@ -4,8 +4,8 @@ import { Toaster } from "sonner"
 import { User } from "../types"
 import { useEffect, useState } from "react"
 import { DevTreeLink } from "./DevTreeLink"
-import { closestCenter, DndContext } from "@dnd-kit/core"
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core"
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 
 type DevTreeProps = {
   data: User
@@ -19,8 +19,13 @@ export const DevTree = ({ data }: DevTreeProps) => {
     setEnableLinks(data.links.filter(item => item.enable))
   }, [data])
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (e: DragEndEvent) => {
+    const {active, over}= e;
 
+    const prevIndex = enableLinks.findIndex(link => link.order.toString() === active.id)
+    const newIndex = enableLinks.findIndex(link => link.order.toString() === over?.id)
+    const order = arrayMove(enableLinks, prevIndex, newIndex)
+    setEnableLinks(order)
   }
 
 
