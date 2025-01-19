@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ErrorFormMessage } from "../components/ErrorFormMessage";
 import { RegisterForm } from "../types";
 import { isAxiosError } from "axios";
@@ -7,10 +7,13 @@ import { toast } from "sonner";
 import { api } from "../config/axios";
 
 export const RegisterView = () => {
+
+  const location = useLocation();
+
   const initialValues: RegisterForm = {
     name: "",
     email: "",
-    handle: "",
+    handle: location.state.handle || "",
     password: "",
     passwordConfirmation: "",
   };

@@ -52,7 +52,7 @@ export const SearchForm = () => {
         {mutation.isPending && <p className="text-center">Cargando...</p>}
         {mutation.error && <p className="text-center text-red-600 font-black">Handle en uso</p>}
         {mutation.data && <p className="text-center text-cyan-500 font-black">
-          Handle disponible ir a <Link to={'/auth/register'}>Registrarse</Link>
+          Handle disponible ir a <Link to={'/auth/register'} state={{handle: slugify(handle)}}>Registrarse</Link>
         </p>}
 
       </div>
