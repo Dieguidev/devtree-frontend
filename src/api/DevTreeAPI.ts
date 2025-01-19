@@ -1,6 +1,6 @@
 import { isAxiosError } from 'axios';
 import { api } from '../config/axios';
-import {  User, UserHandle } from '../types';
+import { User, UserHandle } from '../types';
 
 export async function getUser() {
   try {
@@ -49,6 +49,18 @@ export async function getUserByHandle(handle: string) {
     if (isAxiosError(error)) {
       console.log(error.response?.data.error);
 
+      throw new Error(error.response?.data.error);
+    }
+  }
+}
+
+export async function searchIfExistsHandle(handle: string) {
+  try {
+    const { data } = await api.post<string>(`/api/user/search`, { handle });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.log(error.response?.data.error);
       throw new Error(error.response?.data.error);
     }
   }
