@@ -73,7 +73,7 @@ export const DevTree = ({ data }: DevTreeProps) => {
 
                 <div className="mt-20 flex flex-col gap-5">
                   <SortableContext
-                    items={enableLinks}
+                    items={enableLinks.map(link => ({ id: link.order.toString() }))}
                     strategy={verticalListSortingStrategy}
                   >
 
