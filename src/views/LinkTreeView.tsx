@@ -31,7 +31,7 @@ export const LinkTreeView = () => {
       const social = user.links.find(social => social.name === link.name);
 
       if (social) {
-        return { ...social, url: social.url, enable: social.enable,  }
+        return { ...social, url: social.url, enable: social.enable, }
       }
       return link;
     })
@@ -61,39 +61,47 @@ export const LinkTreeView = () => {
 
     let updatedItems: SocialNetwork[] = [];
 
-    const selectedSocialNetwork = updatedLinks.find(link =>link.name === socialNetwork);
-    if(selectedSocialNetwork?.enable) {
-      const newItems = {
-        ...selectedSocialNetwork,
-        order: links.length + 1
+    const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork);
+    if (selectedSocialNetwork?.enable) {
+      const order = links.filter(link => link.order > 0).length + 1;
+      if (links.some(links => links.name === socialNetwork)) {
+        updatedItems = links.map(link => {
+          if (link.name === socialNetwork) {
+            return {
+              ...link,
+              enable: true,
+              order
+            }
+          } else {
+            return link;
+          }
+        })
+      } else {
+        const newItems = {
+          ...selectedSocialNetwork,
+          order: links.length + 1
+        }
+        updatedItems = [...links, newItems];
       }
-      console.log(newItems);
-
-      updatedItems = [...links, newItems];
     } else {
       const indexToUpdate = links.findIndex(link => link.name === socialNetwork);
-      updatedItems = links.map(link =>{
-        if(link.name === socialNetwork){
+      updatedItems = links.map(link => {
+        if (link.name === socialNetwork) {
           return {
             ...link,
             order: 0,
             enable: false,
           }
-        }else if(link.order > indexToUpdate){
+        } else if (link.order > indexToUpdate) {
           return {
             ...link,
             order: link.order - 1
           }
-        } else{
+        } else {
           return link;
         }
       })
-      console.log(indexToUpdate);
-
     }
-
-    console.log(updatedItems);
-
 
     //almacena en db
     queryClient.setQueryData(['user'], (prevData: User) => {
