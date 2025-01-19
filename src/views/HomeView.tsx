@@ -1,4 +1,5 @@
 import { Header } from "../components/Header"
+import { SearchForm } from "../components/SearchForm"
 
 
 export const HomeView = () => {
@@ -15,6 +16,8 @@ export const HomeView = () => {
             <p className="text-slate-800 text-xl">
               Crea tu propia página de enlaces con todas tus redes sociales y compártela con tus seguidores. Comprte tu perfil de Instagram, TikTok, Twitter, Facebook, YouTube y mucho más en un solo lugar.
             </p>
+
+            <SearchForm />
           </div>
         </div>
       </main>
