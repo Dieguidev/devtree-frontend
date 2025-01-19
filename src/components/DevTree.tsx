@@ -4,6 +4,8 @@ import { Toaster } from "sonner"
 import { User } from "../types"
 import { useEffect, useState } from "react"
 import { DevTreeLink } from "./DevTreeLink"
+import { closestCenter, DndContext } from "@dnd-kit/core"
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 
 type DevTreeProps = {
   data: User
@@ -13,14 +15,13 @@ export const DevTree = ({ data }: DevTreeProps) => {
 
   const [enableLinks, setEnableLinks] = useState(data.links.filter(item => item.enable))
 
-
-
-
   useEffect(() => {
     setEnableLinks(data.links.filter(item => item.enable))
   }, [data])
 
+  const handleDragEnd = () => {
 
+  }
 
 
   return (
@@ -65,13 +66,25 @@ export const DevTree = ({ data }: DevTreeProps) => {
               }
               <p className="text-center text-lg font-black text-white">{data.description}</p>
 
-              <div className="mt-20 flex flex-col gap-5">
-                {
-                  enableLinks.map(link => (
-                    <DevTreeLink key={link.name} link={link} />
-                  ))
-                }
+              <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+
+                <div className="mt-20 flex flex-col gap-5">
+                  <SortableContext
+                    items={enableLinks}
+                    strategy={verticalListSortingStrategy}
+                  >
+
+                    {
+                      enableLinks.map(link => (
+                        <DevTreeLink key={link.name} link={link} />
+                      ))
+                    }
+                  </SortableContext>
                 </div>
+              </DndContext>
             </div>
           </div>
         </main>
