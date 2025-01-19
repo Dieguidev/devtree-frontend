@@ -63,6 +63,7 @@ export const LinkTreeView = () => {
 
     const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork);
     if (selectedSocialNetwork?.enable) {
+
       const order = links.filter(link => link.order > 0).length + 1;
       if (links.some(links => links.name === socialNetwork)) {
         updatedItems = links.map(link => {
@@ -77,6 +78,7 @@ export const LinkTreeView = () => {
           }
         })
       } else {
+
         const newItems = {
           ...selectedSocialNetwork,
           order: links.length + 1
@@ -84,6 +86,7 @@ export const LinkTreeView = () => {
         updatedItems = [...links, newItems];
       }
     } else {
+
       const indexToUpdate = links.findIndex(link => link.name === socialNetwork);
       updatedItems = links.map(link => {
         if (link.name === socialNetwork) {
@@ -92,7 +95,7 @@ export const LinkTreeView = () => {
             order: 0,
             enable: false,
           }
-        } else if (link.order > indexToUpdate) {
+        } else if (link.order > indexToUpdate && (indexToUpdate != 0 && link.order === 1)) {
           return {
             ...link,
             order: link.order - 1
@@ -103,6 +106,7 @@ export const LinkTreeView = () => {
       })
     }
 
+
     //almacena en db
     queryClient.setQueryData(['user'], (prevData: User) => {
       return {
@@ -111,6 +115,9 @@ export const LinkTreeView = () => {
       }
     })
   }
+
+
+
 
   return (
     <>
@@ -123,7 +130,7 @@ export const LinkTreeView = () => {
       </div>
       <button
         className="bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded font-bold"
-        onClick={() => mutate(user)}
+        onClick={() => mutate(queryClient.getQueryData(['user'])!)}
       >Guardar cambios</button>
     </>
   )

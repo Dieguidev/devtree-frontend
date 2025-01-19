@@ -1,11 +1,12 @@
 import { Link, Outlet } from "react-router-dom"
 import NavigationTabs from "./NavigationTabs"
 import { Toaster } from "sonner"
-import { User } from "../types"
+import { SocialNetwork, User } from "../types"
 import { useEffect, useState } from "react"
 import { DevTreeLink } from "./DevTreeLink"
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core"
 import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { QueryClient } from "@tanstack/react-query"
 
 type DevTreeProps = {
   data: User
@@ -19,13 +20,32 @@ export const DevTree = ({ data }: DevTreeProps) => {
     setEnableLinks(data.links.filter(item => item.enable))
   }, [data])
 
+  const queryClient = new QueryClient()
   const handleDragEnd = (e: DragEndEvent) => {
-    const {active, over}= e;
+    const { active, over } = e;
 
     const prevIndex = enableLinks.findIndex(link => link.order.toString() === active.id)
     const newIndex = enableLinks.findIndex(link => link.order.toString() === over?.id)
     const order = arrayMove(enableLinks, prevIndex, newIndex)
+
+    console.log(order);
+
+
     setEnableLinks(order)
+
+    const disableLinks: SocialNetwork[] = data.links.filter(item => !item.enable)
+
+    const links = [...order, ...disableLinks]
+
+
+
+
+    queryClient.setQueryData(['user'], (prevData: User) => {
+      return {
+        ...prevData,
+        links
+      }
+    })
   }
 
 
